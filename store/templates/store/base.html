@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Simple E-Commerce Store{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'store/css/base.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'store:product_list' %}">Store</a>
+        <ul>
+            {% for cat in categories %}
+            <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <main>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple E-Commerce Store</p>
+    </footer>
+</body>
+</html>
