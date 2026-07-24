@@ -1,0 +1,48 @@
+{% extends "store/base.html" %}
+
+{% block title %}Cart - Store{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+
+{% if cart %}
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.price }}</td>
+            <td>${{ item.total_price }}</td>
+            <td>
+                <form method="post" action="{% url 'store:cart_remove' item.product.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"><strong>Total</strong></td>
+            <td><strong>${{ cart.get_total_price }}</strong></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+
+<p><a href="{% url 'store:product_list' %}">Continue Shopping</a></p>
+{% endblock %}
