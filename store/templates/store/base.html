@@ -16,7 +16,7 @@
             <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
             {% endfor %}
         </ul>
-        <a class="cart-link" href="{% url 'store:cart_detail' %}">Cart ({{ request.session|cart_count }})</a>
+        <a class="cart-link" href="{% url 'store:cart_detail' %}">Cart ({{ request|cart_count }})</a>
     </nav>
 
     <main>
