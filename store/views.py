@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 from .models import Category, Product
 from .cart import Cart
 
@@ -35,8 +36,11 @@ def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     quantity = int(request.POST.get('quantity', 1))
-    cart.add(product, quantity)
-    return redirect('store:cart_detail')
+    if cart.add(product, quantity):
+        messages.success(request, f'{product.name} added to cart.')
+    else:
+        messages.error(request, f'Cannot add {product.name}. Only {product.stock} in stock.')
+    return redirect('store:product_detail', id=product.id, slug=product.slug)
 
 
 @require_POST

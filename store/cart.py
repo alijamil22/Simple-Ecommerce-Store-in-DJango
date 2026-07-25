@@ -12,10 +12,14 @@ class Cart:
 
     def add(self, product, quantity=1):
         product_id = str(product.id)
+        current_quantity = self.cart.get(product_id, {}).get('quantity', 0)
+        if current_quantity + quantity > product.stock:
+            return False
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
         self.cart[product_id]['quantity'] += quantity
         self.save()
+        return True
 
     def remove(self, product):
         product_id = str(product.id)
