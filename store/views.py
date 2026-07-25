@@ -6,7 +6,6 @@ from .cart import Cart
 
 
 def product_list(request, slug=None):
-    categories = Category.objects.all()
     category = None
     products = Product.objects.filter(available=True)
 
@@ -16,7 +15,6 @@ def product_list(request, slug=None):
 
     return render(request, 'store/product_list.html', {
         'category': category,
-        'categories': categories,
         'products': products,
     })
 
@@ -35,7 +33,10 @@ def cart_detail(request):
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
-    quantity = int(request.POST.get('quantity', 1))
+    try:
+        quantity = int(request.POST.get('quantity', 1))
+    except (ValueError, TypeError):
+        quantity = 1
     if cart.add(product, quantity):
         messages.success(request, f'{product.name} added to cart.')
     else:
