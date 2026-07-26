@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.contrib.auth import login
 from .models import Category, Product
 from .cart import Cart
+from .forms import RegistrationForm
 
 
 def product_list(request, slug=None):
@@ -50,3 +52,16 @@ def cart_remove(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     return redirect('store:cart_detail')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Account created successfully.')
+            return redirect('store:product_list')
+    else:
+        form = RegistrationForm()
+    return render(request, 'store/auth/register.html', {'form': form})

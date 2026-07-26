@@ -178,3 +178,61 @@ table button {
 table button:hover {
     background: #c82333;
 }
+
+nav .nav-auth {
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+nav a[href*="login"],
+nav a[href*="register"],
+nav a[href*="logout"] {
+    color: #ccc;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+form .form-group {
+    margin-bottom: 1rem;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+form .error {
+    color: #dc3545;
+    font-size: 0.85rem;
+}
+
+form .help {
+    display: block;
+    color: #666;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}

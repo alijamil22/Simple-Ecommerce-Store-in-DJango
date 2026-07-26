@@ -1,0 +1,24 @@
+{% extends "store/base.html" %}
+
+{% block title %}Register - Simple E-Commerce Store{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+        <span class="error">{{ field.errors.0 }}</span>
+        {% endif %}
+        {% if field.help_text %}
+        <span class="help">{{ field.help_text }}</span>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit">Register</button>
+</form>
+<p>Already have an account? <a href="{% url 'store:login' %}">Login here</a></p>
+{% endblock %}
