@@ -18,7 +18,7 @@
         </ul>
         <a class="cart-link" href="{% url 'store:cart_detail' %}">Cart ({{ request|cart_count }})</a>
         {% if user.is_authenticated %}
-        <span class="nav-auth">{{ user.username }}</span>
+        <a href="{% url 'store:profile' %}">{{ user.username }}</a>
         <a href="{% url 'store:logout' %}">Logout</a>
         {% else %}
         <a href="{% url 'store:login' %}">Login</a>

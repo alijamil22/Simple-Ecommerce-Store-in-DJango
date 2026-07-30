@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from .models import Category, Product
+from django.contrib.auth.decorators import login_required
+from .models import Category, Product, Order
 from .cart import Cart
 from .forms import RegistrationForm
 
@@ -70,3 +71,9 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('store:product_list')
+
+
+@login_required
+def profile(request):
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'store/auth/profile.html', {'orders': orders})

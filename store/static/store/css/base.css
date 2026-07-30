@@ -236,3 +236,11 @@ form .help {
     font-size: 0.8rem;
     margin-top: 0.25rem;
 }
+
+.profile-info {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}

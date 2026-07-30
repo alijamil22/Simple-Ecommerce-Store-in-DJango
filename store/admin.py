@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import Category, Product, Order, OrderItem
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -22,3 +22,15 @@ class ProductAdmin(admin.ModelAdmin):
     def make_unavailable(self, request, queryset):
         queryset.update(available=False)
     make_unavailable.short_description = "Mark selected products as unavailable"
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    raw_id_fields = ['product']
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'created', 'paid']
+    list_filter = ['paid', 'created']
+    inlines = [OrderItemInline]

@@ -1,0 +1,45 @@
+{% extends "store/base.html" %}
+
+{% block title %}Profile - Simple E-Commerce Store{% endblock %}
+
+{% block content %}
+<h1>My Profile</h1>
+
+<div class="profile-info">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Member since:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
+</div>
+
+<h2>Order History</h2>
+{% if orders %}
+<table>
+    <thead>
+        <tr>
+            <th>Order</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.created|date:"M d, Y" }}</td>
+            <td>
+                {% for item in order.items.all %}
+                {{ item.product.name }} x{{ item.quantity }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>${{ order.get_total_cost }}</td>
+            <td>{% if order.paid %}Paid{% else %}Pending{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>You haven't placed any orders yet.</p>
+{% endif %}
+{% endblock %}
