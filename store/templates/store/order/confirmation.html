@@ -1,0 +1,56 @@
+{% extends "store/base.html" %}
+
+{% block title %}Order #{{ order.id }} - Simple E-Commerce Store{% endblock %}
+
+{% block content %}
+<h1>Order #{{ order.id }}</h1>
+
+<div class="confirmation-info">
+    {% if order.paid %}
+    <p class="status-paid">Payment Successful</p>
+    {% else %}
+    <p class="status-pending">Payment Pending — Pay on Delivery</p>
+    {% endif %}
+</div>
+
+<div class="confirmation-details">
+    <h2>Order Details</h2>
+    <p><strong>Date:</strong> {{ order.created|date:"M d, Y H:i" }}</p>
+    <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
+
+    <h3>Shipping Address</h3>
+    <p>{{ order.address }}<br>
+    {{ order.city }}, {{ order.postal_code }}<br>
+    Phone: {{ order.phone }}</p>
+
+    <h3>Items</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.get_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Grand Total</strong></td>
+                <td><strong>${{ order.get_total_cost }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<p><a href="{% url 'store:profile' %}">View All Orders</a> | <a href="{% url 'store:product_list' %}">Continue Shopping</a></p>
+{% endblock %}

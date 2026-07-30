@@ -40,6 +40,13 @@
         </tr>
     </tfoot>
 </table>
+
+{% if user.is_authenticated %}
+<p><a class="btn-checkout" href="{% url 'store:checkout' %}">Proceed to Checkout</a></p>
+{% else %}
+<p><a href="{% url 'store:login' %}">Login to checkout</a></p>
+{% endif %}
+
 {% else %}
 <p>Your cart is empty.</p>
 {% endif %}

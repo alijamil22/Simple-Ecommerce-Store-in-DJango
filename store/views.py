@@ -3,9 +3,9 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Category, Product, Order
+from .models import Category, Product, Order, OrderItem
 from .cart import Cart
-from .forms import RegistrationForm
+from .forms import RegistrationForm, CheckoutForm
 
 
 def product_list(request, slug=None):
@@ -77,3 +77,53 @@ def logout_view(request):
 def profile(request):
     orders = Order.objects.filter(user=request.user)
     return render(request, 'store/auth/profile.html', {'orders': orders})
+
+
+@login_required
+def checkout(request):
+    cart = Cart(request)
+    if len(cart) == 0:
+        messages.error(request, 'Your cart is empty.')
+        return redirect('store:cart_detail')
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            if order.payment_method == 'card':
+                order.paid = True
+            order.save()
+
+            for item in cart:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    price=item['price'],
+                    quantity=item['quantity'],
+                )
+                product = item['product']
+                product.stock -= item['quantity']
+                product.save()
+
+            cart.clear()
+
+            if order.payment_method == 'card':
+                messages.success(request, 'Payment successful. Order confirmed.')
+            else:
+                messages.success(request, 'Order placed. Pay on delivery.')
+
+            return redirect('store:order_confirmation', order_id=order.id)
+    else:
+        form = CheckoutForm()
+
+    return render(request, 'store/order/checkout.html', {
+        'form': form,
+        'cart': cart,
+    })
+
+
+@login_required
+def order_confirmation(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'store/order/confirmation.html', {'order': order})

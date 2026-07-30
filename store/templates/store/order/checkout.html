@@ -1,0 +1,65 @@
+{% extends "store/base.html" %}
+
+{% block title %}Checkout - Simple E-Commerce Store{% endblock %}
+
+{% block content %}
+<h1>Checkout</h1>
+
+<div class="checkout-layout">
+    <div class="checkout-form">
+        <h2>Shipping Details</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {% if field.name == 'payment_method' %}
+                <label>Payment Method</label>
+                <div class="payment-options">
+                    {% for radio in field %}
+                    <label class="payment-option">
+                        {{ radio }}
+                    </label>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% endif %}
+                {% if field.errors %}
+                <span class="error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+
+    <div class="checkout-summary">
+        <h2>Order Summary</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"><strong>Grand Total</strong></td>
+                    <td><strong>${{ cart.get_total_price }}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

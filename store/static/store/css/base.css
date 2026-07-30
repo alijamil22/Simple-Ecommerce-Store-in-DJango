@@ -244,3 +244,89 @@ form .help {
     padding: 1rem;
     margin-bottom: 1.5rem;
 }
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.checkout-form, .checkout-summary {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.payment-options {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-checkout {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.btn-checkout:hover {
+    background: #218838;
+    text-decoration: none;
+}
+
+.confirmation-info {
+    margin-bottom: 1.5rem;
+}
+
+.status-paid {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #856404;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.confirmation-details {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-details h2 {
+    margin-bottom: 1rem;
+}
+
+.confirmation-details h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .checkout-layout {
+        grid-template-columns: 1fr;
+    }
+}

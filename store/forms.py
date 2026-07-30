@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Order
 
 
 class RegistrationForm(UserCreationForm):
@@ -16,3 +17,12 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['address', 'city', 'postal_code', 'phone', 'payment_method']
+        widgets = {
+            'payment_method': forms.RadioSelect,
+        }
