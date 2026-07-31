@@ -123,6 +123,6 @@ All 33 tests covering models, views, cart, auth, checkout, and email signals.
 
 - Cart is session-based — stored in `request.session['cart']`
 - Order confirmation email sent via Django `post_save` signal on Order
-- Product images default to `media/images/no-image.svg` when none uploaded
+- Product images fallback to `store/static/store/images/no-image.svg` when none uploaded (tracked in git)
 - Debug toolbar only active when `DEBUG=True`
 - Categories in navbar via context processor — no need to pass manually in views
