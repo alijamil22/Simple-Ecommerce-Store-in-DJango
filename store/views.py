@@ -3,9 +3,7 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.template.loader import render_to_string
 from .models import Category, Product, Order, OrderItem
 from .cart import Cart
 from .forms import RegistrationForm, CheckoutForm
@@ -116,11 +114,6 @@ def checkout(request):
                 product.save()
 
             cart.clear()
-
-            if request.user.email:
-                subject = f'Order #{order.id} confirmed - Simple E-Commerce Store'
-                body = render_to_string('store/order/order_email.txt', {'order': order})
-                send_mail(subject, body, None, [request.user.email])
 
             if order.payment_method == 'card':
                 messages.success(request, 'Payment successful. Order confirmed.')

@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from django.core import mail
 from django.urls import reverse
 from .models import Category, Product, Order, OrderItem
 from .cart import Cart
@@ -284,3 +285,27 @@ class CheckoutViewTest(TestCase):
         response = self.client.get(reverse('store:order_confirmation', args=[order.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Widget')
+
+
+class SignalTest(TestCase):
+    def test_order_email_sent_on_creation(self):
+        user = User.objects.create_user(
+            username='emailuser', password='pass1234', email='test@example.com'
+        )
+        cat = Category.objects.create(name='Books', slug='books')
+        product = Product.objects.create(
+            category=cat, name='Django Book', slug='django-book',
+            price=Decimal('25.00'), stock=10,
+            description='A book about Django'
+        )
+        order = Order.objects.create(
+            user=user, address='123 Main St', city='Lahore',
+            postal_code='54000', phone='03001234567',
+            payment_method='card', paid=True
+        )
+        OrderItem.objects.create(
+            order=order, product=product, price=product.price, quantity=2
+        )
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('Order #', mail.outbox[0].subject)
+        self.assertIn('test@example.com', mail.outbox[0].to)
