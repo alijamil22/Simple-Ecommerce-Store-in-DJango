@@ -1,0 +1,18 @@
+Hello {{ order.user.username }},
+
+Your order #{{ order.id }} has been confirmed.
+
+Payment Method: {{ order.get_payment_method_display }}
+Status: {% if order.paid %}Paid{% else %}Pending - Pay on Delivery{% endif %}
+
+Shipping Address:
+{{ order.address }}
+{{ order.city }}, {{ order.postal_code }}
+Phone: {{ order.phone }}
+
+Items:
+{% for item in order.items.all %}- {{ item.product.name }} x{{ item.quantity }} — ${{ item.get_cost }}
+{% endfor %}
+Grand Total: ${{ order.get_total_cost }}
+
+Thank you for your order!
