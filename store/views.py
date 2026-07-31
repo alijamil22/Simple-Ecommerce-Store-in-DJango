@@ -132,5 +132,9 @@ def checkout(request):
 
 @login_required
 def order_confirmation(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(
+        Order.objects.prefetch_related('items__product'),
+        id=order_id,
+        user=request.user
+    )
     return render(request, 'store/order/confirmation.html', {'order': order})
