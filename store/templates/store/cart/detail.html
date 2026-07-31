@@ -26,7 +26,7 @@
             <td>
                 <form method="post" action="{% url 'store:cart_remove' item.product.id %}">
                     {% csrf_token %}
-                    <button type="submit">Remove</button>
+                    <button type="submit" class="btn-remove">Remove</button>
                 </form>
             </td>
         </tr>
@@ -49,6 +49,7 @@
 
 {% else %}
 <p>Your cart is empty.</p>
+<p><a href="{% url 'store:product_list' %}">Browse products</a></p>
 {% endif %}
 
 <p><a href="{% url 'store:product_list' %}">Continue Shopping</a></p>

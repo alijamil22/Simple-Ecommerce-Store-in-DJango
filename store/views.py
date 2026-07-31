@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from .models import Category, Product, Order, OrderItem
 from .cart import Cart
@@ -17,6 +18,10 @@ def product_list(request, slug=None):
     if slug:
         category = get_object_or_404(Category, slug=slug)
         products = products.filter(category=category)
+
+    paginator = Paginator(products, 12)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
 
     return render(request, 'store/product_list.html', {
         'category': category,
@@ -54,6 +59,7 @@ def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
+    messages.success(request, f'{product.name} removed from cart.')
     return redirect('store:cart_detail')
 
 
@@ -72,6 +78,7 @@ def register(request):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, 'You have been logged out.')
     return redirect('store:product_list')
 
 

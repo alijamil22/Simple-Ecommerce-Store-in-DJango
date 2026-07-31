@@ -41,5 +41,18 @@
     <footer>
         <p>&copy; 2026 Simple E-Commerce Store</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('.messages li');
+            messages.forEach(function(msg) {
+                setTimeout(function() {
+                    msg.style.opacity = '0';
+                    msg.style.transition = 'opacity 0.5s';
+                    setTimeout(function() { msg.remove(); }, 500);
+                }, 3000);
+            });
+        });
+    </script>
 </body>
 </html>

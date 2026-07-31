@@ -1,3 +1,18 @@
+:root {
+    --primary: #007bff;
+    --primary-dark: #0056b3;
+    --success: #28a745;
+    --success-dark: #218838;
+    --danger: #dc3545;
+    --danger-dark: #c82333;
+    --warning: #ffc107;
+    --text: #333;
+    --text-light: #777;
+    --border: #ddd;
+    --bg: #f4f4f4;
+    --white: #fff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +22,14 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background: #f4f4f4;
+    color: var(--text);
+    background: var(--bg);
 }
 
 a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--primary);
+    transition: color 0.2s;
 }
 
 a:hover {
@@ -30,11 +46,11 @@ nav {
 
 nav .cart-link {
     margin-left: auto;
-    color: #fff;
+    color: var(--white);
 }
 
 nav a {
-    color: #fff;
+    color: var(--white);
     font-weight: bold;
     font-size: 1.2rem;
 }
@@ -51,7 +67,7 @@ nav ul a {
 }
 
 nav ul a:hover {
-    color: #fff;
+    color: var(--white);
 }
 
 main {
@@ -92,10 +108,15 @@ main {
 }
 
 .product-card {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1rem;
+    transition: box-shadow 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-card img {
@@ -113,14 +134,14 @@ main {
 
 .product-card .price {
     font-weight: bold;
-    color: #28a745;
+    color: var(--success);
     font-size: 1.1rem;
 }
 
 footer {
     text-align: center;
     padding: 2rem;
-    color: #777;
+    color: var(--text-light);
     font-size: 0.85rem;
 }
 
@@ -132,12 +153,12 @@ table {
 
 th, td {
     padding: 0.75rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border);
     text-align: left;
 }
 
 th {
-    background: #f4f4f4;
+    background: var(--bg);
 }
 
 .product-detail img {
@@ -157,31 +178,58 @@ th {
 }
 
 .product-detail button,
-table button {
+table button,
+form button,
+.btn-checkout {
     padding: 0.5rem 1rem;
-    background: #007bff;
-    color: #fff;
+    color: var(--white);
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
-.product-detail button:hover,
-table button:hover {
-    background: #0056b3;
+.product-detail button {
+    background: var(--primary);
 }
 
-table button {
-    background: #dc3545;
+.product-detail button:hover {
+    background: var(--primary-dark);
 }
 
-table button:hover {
-    background: #c82333;
+table .btn-remove {
+    background: var(--danger);
 }
 
-nav .nav-auth {
-    color: #fff;
-    font-size: 0.9rem;
+table .btn-remove:hover {
+    background: var(--danger-dark);
+}
+
+form button {
+    background: var(--primary);
+}
+
+form button:hover {
+    background: var(--primary-dark);
+}
+
+.btn-checkout {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--success);
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.btn-checkout:hover {
+    background: var(--success-dark);
+    text-decoration: none;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--primary);
 }
 
 nav a[href*="login"],
@@ -208,25 +256,12 @@ form input[type="password"] {
     width: 100%;
     max-width: 400px;
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 4px;
-}
-
-form button {
-    padding: 0.5rem 1rem;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-form button:hover {
-    background: #0056b3;
 }
 
 form .error {
-    color: #dc3545;
+    color: var(--danger);
     font-size: 0.85rem;
 }
 
@@ -237,9 +272,18 @@ form .help {
     margin-top: 0.25rem;
 }
 
+.form-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    max-width: 450px;
+    margin-bottom: 1.5rem;
+}
+
 .profile-info {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1rem;
     margin-bottom: 1.5rem;
@@ -252,8 +296,8 @@ form .help {
 }
 
 .checkout-form, .checkout-summary {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1.5rem;
 }
@@ -269,21 +313,6 @@ form .help {
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-}
-
-.btn-checkout {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #28a745;
-    color: #fff;
-    border-radius: 4px;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-.btn-checkout:hover {
-    background: #218838;
-    text-decoration: none;
 }
 
 .confirmation-info {
@@ -309,8 +338,8 @@ form .help {
 }
 
 .confirmation-details {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -323,6 +352,34 @@ form .help {
 .confirmation-details h3 {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.pagination a, .pagination span {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--primary);
+    transition: background 0.2s, color 0.2s;
+}
+
+.pagination a:hover {
+    background: var(--primary);
+    color: var(--white);
+    text-decoration: none;
+}
+
+.pagination .current {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
 }
 
 @media (max-width: 768px) {

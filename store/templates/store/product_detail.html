@@ -9,6 +9,7 @@
     {% endif %}
     <h1>{{ product.name }}</h1>
     <p class="price">${{ product.price }}</p>
+    <p class="product-category">Category: <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
     <p>{{ product.description }}</p>
     <p>Stock: {{ product.stock }}</p>
     <form method="post" action="{% url 'store:cart_add' product.id %}">
@@ -18,4 +19,5 @@
         <button type="submit">Add to Cart</button>
     </form>
 </div>
+<a class="btn-back" href="{% url 'store:product_list' %}">Back to Products</a>
 {% endblock %}

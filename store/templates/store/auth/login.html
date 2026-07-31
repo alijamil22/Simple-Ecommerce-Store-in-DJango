@@ -4,19 +4,22 @@
 
 {% block content %}
 <h1>Login</h1>
-<form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-        <span class="error">{{ field.errors.0 }}</span>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <button type="submit">Login</button>
-</form>
+<div class="form-card">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <span class="error">{{ field.errors.0 }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit">Login</button>
+    </form>
+</div>
 <p>Don't have an account? <a href="{% url 'store:register' %}">Register here</a></p>
 <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+<a class="btn-back" href="{% url 'store:product_list' %}">Back to Store</a>
 {% endblock %}
